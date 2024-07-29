@@ -5,6 +5,7 @@ const Welcome = ({ currentUser }) => {
   return (
     <Container>
       <img src={Robot} alt="robot" />
+
       <h1>
         Welcome, <span>{currentUser.username}!</span>
       </h1>

@@ -5,11 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { allUserRoute } from "../utils/ApiRoutes";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import ChatContainer from "../components/ChatContainer";
 const Chat = () => {
   // these are fragments <></>
   const [currentChat, setCurrentChat] = useState(undefined);
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [isLoaded, setIsLoaded] = useState(false);
   const navigate = useNavigate();
   // no btn to call api useeffect whwn page loads auto gets call
   useEffect(() => {
@@ -19,6 +21,7 @@ const Chat = () => {
       } else {
         const user = await JSON.parse(localStorage.getItem("chat-app-user"));
         setCurrentUser(user);
+        setIsLoaded(true);
       }
     };
 
@@ -52,7 +55,12 @@ const Chat = () => {
           currentUser={currentUser}
           changeChat={handleChatChange}
         ></Contacts>
-        <Welcome currentUser={currentUser} />
+        {/* conditional rendering */}
+        {isLoaded && currentChat === undefined ? (
+          <Welcome currentUser={currentUser} />
+        ) : (
+          <ChatContainer currentChat={currentChat}></ChatContainer>
+        )}
       </div>
     </Container>
   );
