@@ -1,7 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Logout from "./Logout";
+import ChatInput from "./ChatInput";
+import Message from "./Message";
 const ChatContainer = ({ currentChat }) => {
+  const handleSendMsg = async (msg) => {
+    alert(msg);
+  };
   return (
     <>
       {currentChat && (
@@ -21,35 +26,55 @@ const ChatContainer = ({ currentChat }) => {
               <Logout></Logout>
             </div>
           </div>
-          <div className="chat-messages"></div>
-          <div className="chat-input"></div>
+          <Message />
+          <ChatInput handleSendMsg={handleSendMsg} />
         </Container>
       )}
     </>
   );
 };
 const Container = styled.div`
-  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e2e;
+  height: 100vh;
+  width: 100%;
+  padding: 1rem;
 
   .chat-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
   }
 
   .user-details {
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    .avatar img {
+      height: 3rem;
+    }
+
+    .username h3 {
+      color: white;
+    }
   }
 
-  .avatar img {
-    height: 3rem;
-  }
-
-  .username h3 {
-    color: white;
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    &::-webkit-scrollbar {
+      width: 0.2rem;
+      &-thumb {
+        background-color: #ffffff39;
+        width: 0.1rem;
+        border-radius: 1rem;
+      }
+    }
   }
 `;
 export default ChatContainer;

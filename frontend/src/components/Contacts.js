@@ -69,12 +69,12 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
   );
 };
 const Container = styled.div`
-  display: grid;
-  grid-template-rows: 10% 75% 15%;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #080420;
   height: 100vh;
-  width: 25vw; /* Set the width to 25% for the contacts section */
+  width: 100%;
   color: white;
 
   .brand {
@@ -82,6 +82,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    margin-bottom: 1rem;
     img {
       height: 2rem;
     }
@@ -92,11 +93,14 @@ const Container = styled.div`
   }
 
   .contacts {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
     overflow: auto;
     gap: 0.8rem;
+    padding: 0 1rem;
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
@@ -110,7 +114,7 @@ const Container = styled.div`
       background-color: #ffffff39;
       min-height: 5rem;
       cursor: pointer;
-      width: 90%;
+      width: 100%;
       border-radius: 0.2rem;
       padding: 0.4rem;
       display: flex;
@@ -135,11 +139,12 @@ const Container = styled.div`
   }
 
   .current-user {
-    background-color: #0d0d30;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    padding: 1rem 0;
+    background-color: #0d0d30;
+    width: 100%;
     .avatar {
       img {
         height: 4rem;
@@ -147,21 +152,11 @@ const Container = styled.div`
       }
     }
     .username {
-      h1 {
+      h2 {
         color: white;
-      }
-    }
-
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
-      gap: 0.5rem;
-      .username {
-        h1 {
-          font-size: 1rem;
-        }
       }
     }
   }
 `;
 
-// jeswe me use kr rha hun m,era name niche aayga baki contacts upper
 export default Contacts;
