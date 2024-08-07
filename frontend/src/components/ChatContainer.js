@@ -1,17 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logout from "./Logout";
 import ChatInput from "./ChatInput";
-import Message from "./Message";
-const ChatContainer = ({ currentChat }) => {
+import axios from "axios";
+import { getAllMessagesRoute, sendMessageRoute } from "../utils/ApiRoutes";
+
+const ChatContainer = ({ currentChat, currentUser }) => {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (currentChat) {
+        const response = await axios.post(getAllMessagesRoute, {
+          from: currentUser._id,
+          to: currentChat._id,
+        });
+        setMessages(response.data);
+      }
+    };
+    fetchMessages();
+  }, [currentChat]);
+
   const handleSendMsg = async (msg) => {
-    alert(msg);
+    await axios.post(sendMessageRoute, {
+      from: currentUser._id,
+      to: currentChat._id,
+      message: msg,
+    });
   };
+
   return (
     <>
       {currentChat && (
         <Container>
-          {/* three things neeeded headeer container chat inputn   */}
           <div className="chat-header">
             <div className="user-details">
               <div className="avatar">
@@ -23,23 +44,34 @@ const ChatContainer = ({ currentChat }) => {
               <div className="username">
                 <h3>{currentChat.username}</h3>
               </div>
-              <Logout></Logout>
+              <Logout />
             </div>
           </div>
-          <Message />
+          <div className="chat-messages">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`message ${
+                  message.fromSelf ? "sended" : "recieved"
+                }`}
+              >
+                <div className="content">
+                  <p>{message.message}</p>
+                </div>
+              </div>
+            ))}
+          </div>
           <ChatInput handleSendMsg={handleSendMsg} />
         </Container>
       )}
     </>
   );
 };
+
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: #1e1e2e;
-  height: 100vh;
-  width: 100%;
-  padding: 1rem;
+  display: grid;
+  grid-template-rows: 10% 78% 12%;
+  padding-top: 1rem;
 
   .chat-header {
     display: flex;
@@ -62,18 +94,35 @@ const Container = styled.div`
       color: white;
     }
   }
-
-  .messages {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 1rem;
-    &::-webkit-scrollbar {
-      width: 0.2rem;
-      &-thumb {
-        background-color: #ffffff39;
-        width: 0.1rem;
+  .chat-messages {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: auto;
+    .message {
+      display: flex;
+      align-items: center;
+      .content {
+        max-width: 40%;
+        overflow-wrap: break-word;
+        padding: 1rem;
+        font-size: 1.1rem;
         border-radius: 1rem;
+        color: #d1d1d1;
       }
+    }
+  }
+  .sended {
+    justify-content: flex-end;
+    .content {
+      background-color: #4f04ff21;
+    }
+  }
+  .recieved {
+    justify-content: flex-start;
+    .content {
+      background-color: #9900ff20;
     }
   }
 `;
