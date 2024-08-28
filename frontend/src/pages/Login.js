@@ -39,6 +39,7 @@ const Login = () => {
         if (data.status === false) {
           toast.error(data.msg, toastOptions);
         }
+        // herer we are not using the json web token only doing with the user save into local storage
         if (data.status === true) {
           localStorage.setItem("chat-app-user", JSON.stringify(data.user));
           navigate("/");

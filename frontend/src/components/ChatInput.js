@@ -105,8 +105,8 @@ const Container = styled.div`
   .input-container {
     width: 100%;
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    align-content: center;
+    gap: 2rem;
 
     input {
       width: 90%;

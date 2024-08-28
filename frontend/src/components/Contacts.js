@@ -140,15 +140,19 @@ const Container = styled.div`
 
   .current-user {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 1rem 0;
+    bottom:10%
+    justify-content: center;
     background-color: #0d0d30;
     width: 100%;
+    padding: 1rem;
+    border-top: 1px solid #ffffff39;
     .avatar {
+      margin-right: 1rem;
       img {
-        height: 4rem;
-        max-inline-size: 100%;
+        height: 6rem;
+        border-radius: 50%;
+        border: 2px solid #ffffff39;
       }
     }
     .username {
